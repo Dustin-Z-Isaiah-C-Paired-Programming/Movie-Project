@@ -7,7 +7,18 @@
 <body>
 <h1>Welcome to Moo-vies</h1>
 <div id="moviesDiv"><p>Loading...</p></div>
-
+<div id="addMovie">
+	<form>
+		<h1>Add A New Moo-vie</h1>
+		<label for="movieName">Movie Title</label>
+		<input type="text" id="movieName" name="movieName">
+		
+		<label for="movieRating">Movie Rating</label>
+		<input type="text" id="movieRating" name="movieRating">
+		
+		<input type="submit" id="submitNewMovie">
+	</form>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script src="js/movie-project.js"></script>

@@ -1,7 +1,7 @@
 "use strict";
 // alert('moo')
 let glitchURL = 'https://defiant-melted-burrito.glitch.me/movies';
-let newMovieId = 4;
+let newMovieId = 3;
 
 /**
 On page load:
@@ -28,6 +28,22 @@ function loadMovies() {
 }
 loadMovies();
 // console.log(loadMovies())
+
+$("#submitNewMovie").on("click", function (e){
+    e.preventDefault();
+    newMovieId++;
+    let newMovie = $("#movieName")[0].value
+    let newRating = $("#movieRating")[0].value
+    // console.log(newMovie)
+    $.ajax(glitchURL, {
+        type: "POST",
+        data:{
+            title: `${newMovie}`,
+            rating: `${newRating}`,
+            id: `${newMovieId}`
+        }
+    }).then(loadMovies())
+})
 
 /**
     4. Allow users to add new movies

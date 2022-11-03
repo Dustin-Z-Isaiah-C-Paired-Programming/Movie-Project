@@ -27,7 +27,7 @@ On page load:
 /**
  * Bonuses
  * ✅ 1. Add a disabled attribute to buttons while their corresponding ajax request is still pending.
- * 2. Show a loading animation instead of just text that says "loading...".
+ * ✅ 2. Show a loading animation instead of just text that says "loading...".
  * 3. Use modals for the creating and editing movie forms.
  * 4. Add a genre property to every movie.
  * 5. Allow users to sort the movies by rating, title, or genre (if you have it).
@@ -118,7 +118,8 @@ function loadMovies() {
     })
 }
 // Call the localMovies function to load the movie data when the page is opened
-loadMovies();
+
+setTimeout(() => { loadMovies(); }, 5000);
 
 // Add a 'click' event listener to the #submitNewMovie button
 $("#submitNewMovie").on("click", function (e){

@@ -24,6 +24,17 @@ On page load:
 
  */
 
+/**
+ * Bonuses
+ * ✅ 1. Add a disabled attribute to buttons while their corresponding ajax request is still pending.
+ * 2. Show a loading animation instead of just text that says "loading...".
+ * 3. Use modals for the creating and editing movie forms.
+ * 4. Add a genre property to every movie.
+ * 5. Allow users to sort the movies by rating, title, or genre (if you have it).
+ * 6. Allow users to search through the movies by rating, title, or genre (if you have it).
+ * 7. Use a free movie API like OMDB to include extra info or render movie posters.
+ */
+
 // Make movies AJAX GET request
 function loadMovies() {
     return $.ajax(glitchURL, {
@@ -48,6 +59,7 @@ function loadMovies() {
         // Add event listener to the .editMovie button class
         $(".editMovie").click(function (e){
             e.preventDefault();
+            $(this).prop("disabled",true)
             // console.log(e)
             // Create local scope variables to use in the HTML string
             let title = data[(e.currentTarget.parentElement.id -1)].title
@@ -69,6 +81,7 @@ function loadMovies() {
             // Add a 'click' event listener to the #submitNewMovieEdit button
             $("#submitNewMovieEdit").click(function (e){
                 e.preventDefault()
+                $(this).prop("disabled",true)
                 // console.log(e)
                 // console.log(id)
                 // Create local variables to use in the AJAX request
@@ -90,6 +103,7 @@ function loadMovies() {
         // Add a 'click' event listener to the .deleteMovie button
         $(".deleteMovie").click(function (e){
             e.preventDefault();
+            $(this).prop("disabled",true)
             // console.log(e)
             // Create local variables to use in the AJAX DELETE request
             let id = data[(e.currentTarget.parentElement.id -1)].id
@@ -109,6 +123,7 @@ loadMovies();
 // Add a 'click' event listener to the #submitNewMovie button
 $("#submitNewMovie").on("click", function (e){
     e.preventDefault();
+    $(this).prop("disabled",true)
     //Create local variables to use in AJAX POST request
     let newMovie = $("#movieName")[0].value
     let newRating = $("#movieRating")[0].value

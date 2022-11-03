@@ -1,7 +1,6 @@
 "use strict";
 // alert('moo')
 let glitchURL = 'https://defiant-melted-burrito.glitch.me/movies';
-let newMovieId = 3;
 
 /**
 On page load:
@@ -18,20 +17,47 @@ function loadMovies() {
         console.log(data)
         let html = "<div>"
         data.forEach(function (movie) {
-            html += `<h2>${movie.title}</h2>
-        <p>Rating: ${movie.rating}, ID: ${movie.id}</p>`
-
+            html += `<div id="${movie.id}"><h2>${movie.title}</h2>
+        <p>Rating: ${movie.rating}</p>
+        <button type="submit" class="editMovie">Edit</button>
+        <div class="editMovieFormDiv"></div></div>`
         })
         html += "</div>"
         $("#moviesDiv").html(`${html}`)
+        $(".editMovie").click(function (e){
+            e.preventDefault();
+            let title = data[(e.currentTarget.parentElement.id -1)].title
+            let rating = data[(e.currentTarget.parentElement.id -1)].rating
+            let html = `<div>
+                <h2>Edit this moo-vie</h2>
+                <label for="editMovieName">Movie Title</label>
+                <input type="text" id="editMovieName" name="editMovieName" placeholder="${title}">
+                
+                <label for="editMovieRating">Movie Rating</label>
+                <input type="text" id="editMovieRating" name="editMovieRating" placeholder="${rating}">
+                
+                <input type="submit" id="submitNewMovieEdit">
+            </div>`
+            e.currentTarget.parentElement.children[3].innerHTML = html
+            // console.log(e.currentTarget.parentElement.id)
+            console.log(e)
+        })
     })
 }
 loadMovies();
 // console.log(loadMovies())
 
+
+
+/**
+     ✅4. Allow users to add new movies
+     ✅ 5. Create a form for adding a new movie that has fields for the movie's title and rating
+     ✅ 6. When the form is submitted, the page should not reload / refresh, instead, your javascript should make a POST request to /movies with the information the user put into the form
+
+ */
 $("#submitNewMovie").on("click", function (e){
     e.preventDefault();
-    newMovieId++;
+
     let newMovie = $("#movieName")[0].value
     let newRating = $("#movieRating")[0].value
     // console.log(newMovie)
@@ -39,18 +65,14 @@ $("#submitNewMovie").on("click", function (e){
         type: "POST",
         data:{
             title: `${newMovie}`,
-            rating: `${newRating}`,
-            id: `${newMovieId}`
+            rating: `${newRating}`
         }
     }).then(loadMovies())
 })
-
 /**
-    4. Allow users to add new movies
-    5. Create a form for adding a new movie that has fields for the movie's title and rating
-    6. When the form is submitted, the page should not reload / refresh, instead, your javascript should make a POST request to /movies with the information the user put into the form
     7. Allow users to edit existing movies
  */
+
 
 /**
     8. Give users the option to edit an existing movie

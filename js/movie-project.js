@@ -27,6 +27,7 @@ function loadMovies() {
         $(".editMovie").click(function (e){
             e.preventDefault();
             let title = data[(e.currentTarget.parentElement.id -1)].title
+            let id = data[(e.currentTarget.parentElement.id -1)].id
             let rating = data[(e.currentTarget.parentElement.id -1)].rating
             let html = `<div>
                 <h2>Edit this moo-vie</h2>
@@ -41,9 +42,28 @@ function loadMovies() {
             e.currentTarget.parentElement.children[3].innerHTML = html
             // console.log(e.currentTarget.parentElement.id)
             console.log(e)
+            $("#submitNewMovieEdit").click(function (e){
+                e.preventDefault()
+                console.log(e)
+                console.log(id)
+                let newMovieEdit = $("#editMovieName")[0].value
+                let newRatingEdit = $("#editMovieRating")[0].value
+                let putGlitchURL = `${glitchURL}/${id}`;
+                console.log(putGlitchURL)
+                $.ajax(putGlitchURL, {
+                    type: "PUT",
+                    data:{
+                        title: `${newMovieEdit}`,
+                        rating: `${newRatingEdit}`
+                    }
+            }).then(() => {
+                // console.log(data)
+                    loadMovies()
+                })
         })
+
     })
-}
+})}
 loadMovies();
 // console.log(loadMovies())
 
@@ -69,15 +89,12 @@ $("#submitNewMovie").on("click", function (e){
         }
     }).then(loadMovies())
 })
-/**
-    7. Allow users to edit existing movies
- */
-
 
 /**
-    8. Give users the option to edit an existing movie
-    9. A form should be pre-populated with the selected movie's details
-    10. Like creating a movie, this should not involve any page reloads, instead your javascript code should make an ajax request when the form is submitted.
+    ✅ 7. Allow users to edit existing movies
+    ✅ 8. Give users the option to edit an existing movie
+    ✅ 9. A form should be pre-populated with the selected movie's details
+    ✅ 10. Like creating a movie, this should not involve any page reloads, instead your javascript code should make an ajax request when the form is submitted.
     11. Delete movies
  */
 

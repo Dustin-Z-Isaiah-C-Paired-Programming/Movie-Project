@@ -48,6 +48,7 @@ function loadMovies() {
             html += `<div id="${movie.id}"><h2>${movie.title}</h2>
         <p>Rating: ${movie.rating}</p>
         <button type="submit" class="editMovie">Edit</button>
+<!--        // removed modal class from div below *d-none issue*-->
         <div class="editMovieFormDiv"></div>
         <button type="submit" class="deleteMovie">Delete</button>
         </div>
@@ -59,24 +60,41 @@ function loadMovies() {
         // Add event listener to the .editMovie button class
         $(".editMovie").click(function (e){
             e.preventDefault();
-            $(this).prop("disabled",true)
+            // $(".modal").css.display = "block"
+            // $(this).prop("disabled",true)
+
+            // Create a dataIndex variable to set to the data object index when the correct id is found
+            let dataIndex = -1;
+            // Loop through the data array and assign the index value to dataIndex variable when ids match
+            data.forEach(function (element, index){
+                // console.log(element.id)
+                // console.log(index)
+                // console.log(e.currentTarget.parentElement.id)
+                if (e.currentTarget.parentElement.id == element.id){
+                    dataIndex = index
+                }
+            })
+            // console.log(dataIndex)
             // console.log(e)
+
             // Create local scope variables to use in the HTML string
-            let title = data[(e.currentTarget.parentElement.id -1)].title
-            let id = data[(e.currentTarget.parentElement.id -1)].id
-            let rating = data[(e.currentTarget.parentElement.id -1)].rating
+            let title = data[(dataIndex)].title
+            let id = data[(dataIndex)].id
+            let rating = data[(dataIndex)].rating
             // Create HTML string for edit movie button click
-            let html = `<form>
+            let html = `<form class="modal-content">
+<!--<button class="closeModal">Close</button>-->
                 <h2>Edit this moo-vie</h2>
                 <label for="editMovieName">Movie Title</label>
-                <input type="text" id="editMovieName" name="editMovieName" placeholder="${title}">
+                <input type="text" id="editMovieName" name="editMovieName" value="${title}">
                 
                 <label for="editMovieRating">Movie Rating</label>
-                <input type="text" id="editMovieRating" name="editMovieRating" placeholder="${rating}">
+                <input type="text" id="editMovieRating" name="editMovieRating" value="${rating}">
                 
                 <input type="submit" id="submitNewMovieEdit">
             </form>`
             // Assign the edit movie HTML to the edit movie div
+            // console.log(e.currentTarget.parentElement.children[3])
             e.currentTarget.parentElement.children[3].innerHTML = html
             // Add a 'click' event listener to the #submitNewMovieEdit button
             $("#submitNewMovieEdit").click(function (e){
@@ -100,13 +118,26 @@ function loadMovies() {
                 }).then(() => {loadMovies()})
             })
         })
+        // $(".closeModal").onclick = function() {
+        //     $(".modal").style.display = "none";
+        // }
         // Add a 'click' event listener to the .deleteMovie button
         $(".deleteMovie").click(function (e){
             e.preventDefault();
+            let dataIndex = -1;
+            // Loop through the data array and assign the index value to dataIndex variable when ids match
+            data.forEach(function (element, index){
+                // console.log(element.id)
+                // console.log(index)
+                // console.log(e.currentTarget.parentElement.id)
+                if (e.currentTarget.parentElement.id == element.id){
+                    dataIndex = index
+                }
+            })
             $(this).prop("disabled",true)
             // console.log(e)
             // Create local variables to use in the AJAX DELETE request
-            let id = data[(e.currentTarget.parentElement.id -1)].id
+            let id = data[dataIndex].id
             let putGlitchURL = `${glitchURL}/${id}`;
             // console.log(putGlitchURL)
             // Make movie AJAX DELETE request

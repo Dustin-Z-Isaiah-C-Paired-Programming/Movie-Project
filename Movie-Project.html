@@ -13,14 +13,19 @@
 		<span class="loader"><span class="loader-inner"><img src="photos/pexels-jan-koetsier-2647053.jpg" class="rotate"></span></span>
 	</div>
 </div>
-<div id="addMovie">
-	<form>
+	<button type="button" id="addNewMovie">Add a new moo-vie</button>
+<div id="addMovie" class="modal">
+	<form class="modal-content">
+		<button class="closeModal" type="button">X</button>
 		<h1>Add A New Moo-vie</h1>
 		<label for="movieName">Movie Title</label>
 		<input type="text" id="movieName" name="movieName">
 		
 		<label for="movieRating">Movie Rating</label>
 		<input type="text" id="movieRating" name="movieRating">
+		
+		<label for="movieGenre">Movie Genre</label>
+		<input type="text" id="movieGenre" name="movieGenre">
 		
 		<input type="submit" id="submitNewMovie">
 	</form>

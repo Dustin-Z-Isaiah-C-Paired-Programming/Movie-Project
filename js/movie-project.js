@@ -28,8 +28,8 @@ On page load:
  * Bonuses
  * ✅ 1. Add a disabled attribute to buttons while their corresponding ajax request is still pending.
  * ✅ 2. Show a loading animation instead of just text that says "loading...".
- * 3. Use modals for the creating and editing movie forms.
- * 4. Add a genre property to every movie.
+ * ✅ 3. Use modals for the creating and editing movie forms.
+ * ✅ 4. Add a genre property to every movie.
  * 5. Allow users to sort the movies by rating, title, or genre (if you have it).
  * 6. Allow users to search through the movies by rating, title, or genre (if you have it).
  * 7. Use a free movie API like OMDB to include extra info or render movie posters.
@@ -47,6 +47,7 @@ function loadMovies() {
         data.forEach(function (movie) {
             html += `<div id="${movie.id}"><h2>${movie.title}</h2>
         <p>Rating: ${movie.rating}</p>
+        <p>Genre: ${movie.genre}</p>
         <button type="submit" class="editMovie">Edit</button>
 <!--        // removed modal class from div below *d-none issue*-->
         <div class="editMovieFormDiv modal"></div>
@@ -78,9 +79,10 @@ function loadMovies() {
             // console.log(e)
 
             // Create local scope variables to use in the HTML string
-            let title = data[(dataIndex)].title
-            let id = data[(dataIndex)].id
-            let rating = data[(dataIndex)].rating
+            let title = data[dataIndex].title
+            let id = data[dataIndex].id
+            let rating = data[dataIndex].rating
+            let genre = data[dataIndex].genre
             // Create HTML string for edit movie button click
             let html = `
                 <form class="modal-content">
@@ -94,13 +96,17 @@ function loadMovies() {
                 
                 <label for="editMovieRating">Movie Rating</label>
                 <input type="text" id="editMovieRating" name="editMovieRating" value="${rating}">
+               
+                <label for="editMovieGenre">Movie Genre</label>
+                <input type="text" id="editMovieGenre" name="editMovieGenre" value="${genre}">
                 
                 <input type="submit" id="submitNewMovieEdit">
             </form>`
             // Assign the edit movie HTML to the edit movie div
-            e.currentTarget.parentElement.children[3].innerHTML = html
+            e.currentTarget.parentElement.children[4].innerHTML = html
+            console.log(e)
             // Display the modal
-            e.currentTarget.parentElement.children[3].style.display = "block"
+            e.currentTarget.parentElement.children[4].style.display = "block"
 
             // Add event listener to close modal button class to display=none the parent element and remove "disabled property from the edit button attribute
             $(".closeModal").click(function(e) {
@@ -120,6 +126,7 @@ function loadMovies() {
                 // Create local variables to use in the AJAX request
                 let newMovieEdit = $("#editMovieName")[0].value
                 let newRatingEdit = $("#editMovieRating")[0].value
+                let newGenreEdit = $("#editMovieGenre")[0].value
                 let putGlitchURL = `${glitchURL}/${id}`;
                 // console.log(putGlitchURL)
                 // Make movie AJAX PUT request
@@ -127,7 +134,8 @@ function loadMovies() {
                     type: "PUT",
                     data:{
                         title: `${newMovieEdit}`,
-                        rating: `${newRatingEdit}`
+                        rating: `${newRatingEdit}`,
+                        genre: `${newGenreEdit}`
                     }
                     // Reload the movies
                 }).then(() => {loadMovies()})
@@ -165,6 +173,21 @@ function loadMovies() {
 
 setTimeout(() => { loadMovies(); }, 1000);
 
+$("#addNewMovie").on("click", function (e){
+    e.preventDefault();
+    $(this).prop("disabled",true)
+    console.log(e)
+    // $(".modal").style.display = "block"
+    e.currentTarget.nextElementSibling.style.display = "block";
+})
+
+$(".closeModal").click(function(e) {
+    // Hide modal
+    e.currentTarget.parentElement.parentElement.style.display = "none"
+    // make edit button usable again
+    $("#addNewMovie").prop("disabled",false)
+})
+
 // Add a 'click' event listener to the #submitNewMovie button
 $("#submitNewMovie").on("click", function (e){
     e.preventDefault();
@@ -172,15 +195,21 @@ $("#submitNewMovie").on("click", function (e){
     //Create local variables to use in AJAX POST request
     let newMovie = $("#movieName")[0].value
     let newRating = $("#movieRating")[0].value
+    let newGenre = $("#movieGenre")[0].value
     // console.log(newMovie)
     // Make movie AJAX POST request
+    e.currentTarget.parentElement.parentElement.style.display = "none"
+    // make edit button usable again
+    $("#addNewMovie").prop("disabled",false)
+    $(this).prop("disabled",false)
     $.ajax(glitchURL, {
         type: "POST",
         data:{
             title: `${newMovie}`,
-            rating: `${newRating}`
+            rating: `${newRating}`,
+            genre: `${newGenre}`
         }
     // Reload the movies
-    }).then(loadMovies())
+    }).then(() => loadMovies())
 })
 

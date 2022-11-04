@@ -41,11 +41,11 @@ function loadMovies() {
         type: "GET"
     })
         // Create an HTML string with the movie info
-    .then(function (data){
-        // console.log(data)
-        let html = "<div>"
-        data.forEach(function (movie) {
-            html += `<div id="${movie.id}"><h2>${movie.title}</h2>
+        .then(function (data) {
+            // console.log(data)
+            let html = "<div>"
+            data.forEach(function (movie) {
+                html += `<div id="${movie.id}"><h2>${movie.title}</h2>
         <p>Rating: ${movie.rating}</p>
         <p>Genre: ${movie.genre}</p>
         <button type="submit" class="editMovie">Edit</button>
@@ -54,37 +54,37 @@ function loadMovies() {
         <button type="submit" class="deleteMovie">Delete</button>
         </div>
         `
-        })
-        html += "</div>"
-        // Inject the HTML string into the #moviesDiv
-        $("#moviesDiv").html(`${html}`)
-        // Add event listener to the .editMovie button class
-        $(".editMovie").click(function (e){
-            e.preventDefault();
-            $(this).prop("disabled",true)
-
-
-            // Create a dataIndex variable to set to the data object index when the correct id is found
-            let dataIndex = -1;
-            // Loop through the data array and assign the index value to dataIndex variable when ids match
-            data.forEach(function (element, index){
-                // console.log(element.id)
-                // console.log(index)
-                // console.log(e.currentTarget.parentElement.id)
-                if (e.currentTarget.parentElement.id == element.id){
-                    dataIndex = index
-                }
             })
-            // console.log(dataIndex)
-            // console.log(e)
+            html += "</div>"
+            // Inject the HTML string into the #moviesDiv
+            $("#moviesDiv").html(`${html}`)
+            // Add event listener to the .editMovie button class
+            $(".editMovie").click(function (e) {
+                e.preventDefault();
+                $(this).prop("disabled", true)
 
-            // Create local scope variables to use in the HTML string
-            let title = data[dataIndex].title
-            let id = data[dataIndex].id
-            let rating = data[dataIndex].rating
-            let genre = data[dataIndex].genre
-            // Create HTML string for edit movie button click
-            let html = `
+
+                // Create a dataIndex variable to set to the data object index when the correct id is found
+                let dataIndex = -1;
+                // Loop through the data array and assign the index value to dataIndex variable when ids match
+                data.forEach(function (element, index) {
+                    // console.log(element.id)
+                    // console.log(index)
+                    // console.log(e.currentTarget.parentElement.id)
+                    if (e.currentTarget.parentElement.id == element.id) {
+                        dataIndex = index
+                    }
+                })
+                // console.log(dataIndex)
+                // console.log(e)
+
+                // Create local scope variables to use in the HTML string
+                let title = data[dataIndex].title
+                let id = data[dataIndex].id
+                let rating = data[dataIndex].rating
+                let genre = data[dataIndex].genre
+                // Create HTML string for edit movie button click
+                let html = `
                 <form class="modal-content">
                 
                 <button class="closeModal" type="button">X</button>
@@ -102,73 +102,78 @@ function loadMovies() {
                 
                 <input type="submit" id="submitNewMovieEdit">
             </form>`
-            // Assign the edit movie HTML to the edit movie div
-            e.currentTarget.parentElement.children[4].innerHTML = html
-            console.log(e)
-            // Display the modal
-            e.currentTarget.parentElement.children[4].style.display = "block"
+                // Assign the edit movie HTML to the edit movie div
+                e.currentTarget.parentElement.children[4].innerHTML = html
+                console.log(e)
+                // Display the modal
+                e.currentTarget.parentElement.children[4].style.display = "block"
 
-            // Add event listener to close modal button class to display=none the parent element and remove "disabled property from the edit button attribute
-            $(".closeModal").click(function(e) {
-                // Hide modal
-                e.currentTarget.parentElement.parentElement.style.display = "none"
-                // make edit button usable again
-                $(".editMovie").prop("disabled",false)
+                // Add event listener to close modal button class to display=none the parent element and remove "disabled property from the edit button attribute
+                $(".closeModal").click(function (e) {
+                    // Hide modal
+                    e.currentTarget.parentElement.parentElement.style.display = "none"
+                    // make edit button usable again
+                    $(".editMovie").prop("disabled", false)
+                })
+
+
+                // Add a 'click' event listener to the #submitNewMovieEdit button
+                $("#submitNewMovieEdit").click(function (e) {
+                    e.preventDefault()
+                    $(this).prop("disabled", true)
+                    // console.log(e)
+                    // console.log(id)
+                    // Create local variables to use in the AJAX request
+                    let newMovieEdit = $("#editMovieName")[0].value
+                    let newRatingEdit = $("#editMovieRating")[0].value
+                    let newGenreEdit = $("#editMovieGenre")[0].value
+                    let putGlitchURL = `${glitchURL}/${id}`;
+                    // console.log(putGlitchURL)
+                    // Make movie AJAX PUT request
+                    $.ajax(putGlitchURL, {
+                        type: "PUT",
+                        data: {
+                            title: `${newMovieEdit}`,
+                            rating: `${newRatingEdit}`,
+                            genre: `${newGenreEdit}`
+                        }
+                        // Reload the movies
+                    }).then(() => {
+                        loadMovies()
+                    })
+                })
             })
 
-
-            // Add a 'click' event listener to the #submitNewMovieEdit button
-            $("#submitNewMovieEdit").click(function (e){
-                e.preventDefault()
-                $(this).prop("disabled",true)
+            // Add a 'click' event listener to the .deleteMovie button
+            $(".deleteMovie").click(function (e) {
+                e.preventDefault();
+                let dataIndex = -1;
+                // Loop through the data array and assign the index value to dataIndex variable when ids match
+                data.forEach(function (element, index) {
+                    // console.log(element.id)
+                    // console.log(index)
+                    // console.log(e.currentTarget.parentElement.id)
+                    if (e.currentTarget.parentElement.id == element.id) {
+                        dataIndex = index
+                    }
+                })
+                $(this).prop("disabled", true)
                 // console.log(e)
-                // console.log(id)
-                // Create local variables to use in the AJAX request
-                let newMovieEdit = $("#editMovieName")[0].value
-                let newRatingEdit = $("#editMovieRating")[0].value
-                let newGenreEdit = $("#editMovieGenre")[0].value
+                // Create local variables to use in the AJAX DELETE request
+                let id = data[dataIndex].id
                 let putGlitchURL = `${glitchURL}/${id}`;
                 // console.log(putGlitchURL)
-                // Make movie AJAX PUT request
+                // Make movie AJAX DELETE request
                 $.ajax(putGlitchURL, {
-                    type: "PUT",
-                    data:{
-                        title: `${newMovieEdit}`,
-                        rating: `${newRatingEdit}`,
-                        genre: `${newGenreEdit}`
-                    }
+                    type: "DELETE"
                     // Reload the movies
-                }).then(() => {loadMovies()})
+                }).then(() => {
+                    loadMovies()
+                })
             })
         })
-
-        // Add a 'click' event listener to the .deleteMovie button
-        $(".deleteMovie").click(function (e){
-            e.preventDefault();
-            let dataIndex = -1;
-            // Loop through the data array and assign the index value to dataIndex variable when ids match
-            data.forEach(function (element, index){
-                // console.log(element.id)
-                // console.log(index)
-                // console.log(e.currentTarget.parentElement.id)
-                if (e.currentTarget.parentElement.id == element.id){
-                    dataIndex = index
-                }
-            })
-            $(this).prop("disabled",true)
-            // console.log(e)
-            // Create local variables to use in the AJAX DELETE request
-            let id = data[dataIndex].id
-            let putGlitchURL = `${glitchURL}/${id}`;
-            // console.log(putGlitchURL)
-            // Make movie AJAX DELETE request
-            $.ajax(putGlitchURL, {
-                type: "DELETE"
-                // Reload the movies
-            }).then(() => {loadMovies()})
-        })
-    })
 }
+
 // Call the localMovies function to load the movie data when the page is opened
 
 setTimeout(() => { loadMovies(); }, 1000);
@@ -212,4 +217,6 @@ $("#submitNewMovie").on("click", function (e){
     // Reload the movies
     }).then(() => loadMovies())
 })
+
+
 

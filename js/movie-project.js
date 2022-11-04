@@ -135,12 +135,29 @@ function makeMovieHTML(data){
     })
 
 }
+// function searchMovies(data){
+//     let dataObj = [];
+//         let searchTextValue = $("#searchMovies").value
+//         console.log($("#searchMovies").value)
+//         $("#searchMovies").change(function (e){
+//             e.preventDefault()
+//             console.log(searchTextValue)
+//             // if(){
+//             //
+//             // }
+//             return data
+//         })
+// }
 // Make movies AJAX GET request
 function loadMovies() {
     return $.ajax(glitchURL, {
         type: "GET"
-    }).then(function (data){
-        $("#sortMovies").change(function (){
+    })
+
+        .then(function (data){
+
+        $("#sortMovies").change(function (e){
+            e.preventDefault()
             if ($(this).children("option:selected").val() == 0){
                 return data
             } else

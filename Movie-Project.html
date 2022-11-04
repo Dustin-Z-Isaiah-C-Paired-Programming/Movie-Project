@@ -7,6 +7,20 @@
 </head>
 <body>
 <h1>Welcome to Moo-vies</h1>
+<form>
+	<label for="sortMovies">Sort Moo-vies:</label>
+	<select id="sortMovies" name="sortMovies">
+		<option class="sortOption" value="0">Select a sort option</option>
+		<option class="sortOption" value="1">Title A-Z</option>
+		<option class="sortOption" value="2">Title Z-A</option>
+		<option class="sortOption" value="3">Genre A-Z</option>
+		<option class="sortOption" value="4">Genre Z-A</option>
+		<option class="sortOption" value="5">Rating High-Low</option>
+		<option class="sortOption" value="6">Rating Low-High</option>
+	</select>
+	<label for="searchMovies">Search Moo-vies:</label>
+	<input type="search" id="searchMovies" name="searchMovies">
+</form>
 <div id="moviesDiv">
 	<div class="loader-wrapper">
 		<h1>Just a Moo-ment while your page loads...</h1>

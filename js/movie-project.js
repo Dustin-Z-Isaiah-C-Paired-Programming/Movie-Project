@@ -30,61 +30,51 @@ On page load:
  * ✅ 2. Show a loading animation instead of just text that says "loading...".
  * ✅ 3. Use modals for the creating and editing movie forms.
  * ✅ 4. Add a genre property to every movie.
- * 5. Allow users to sort the movies by rating, title, or genre (if you have it).
+ * ✅ 5. Allow users to sort the movies by rating, title, or genre (if you have it).
  * 6. Allow users to search through the movies by rating, title, or genre (if you have it).
  * 7. Use a free movie API like OMDB to include extra info or render movie posters.
  */
-
-// Make movies AJAX GET request
-function loadMovies() {
-    return $.ajax(glitchURL, {
-        type: "GET"
-    })
-        // Create an HTML string with the movie info
-        .then(function (data) {
-            // console.log(data)
-            let html = "<div>"
-            data.forEach(function (movie) {
-                html += `<div id="${movie.id}"><h2>${movie.title}</h2>
+function makeMovieHTML(data){
+    let html = "<div>"
+    data.forEach(function (movie) {
+        html += `<div id="${movie.id}"><h2>${movie.title}</h2>
         <p>Rating: ${movie.rating}</p>
         <p>Genre: ${movie.genre}</p>
         <button type="submit" class="editMovie">Edit</button>
-<!--        // removed modal class from div below *d-none issue*-->
         <div class="editMovieFormDiv modal"></div>
         <button type="submit" class="deleteMovie">Delete</button>
         </div>
         `
-            })
-            html += "</div>"
-            // Inject the HTML string into the #moviesDiv
-            $("#moviesDiv").html(`${html}`)
-            // Add event listener to the .editMovie button class
-            $(".editMovie").click(function (e) {
-                e.preventDefault();
-                $(this).prop("disabled", true)
+    })
+    html += "</div>"
+    // Inject the HTML string into the #moviesDiv
+    $("#moviesDiv").html(`${html}`)
+    $(".editMovie").click(function (e) {
+        e.preventDefault();
+        $(this).prop("disabled", true)
 
 
-                // Create a dataIndex variable to set to the data object index when the correct id is found
-                let dataIndex = -1;
-                // Loop through the data array and assign the index value to dataIndex variable when ids match
-                data.forEach(function (element, index) {
-                    // console.log(element.id)
-                    // console.log(index)
-                    // console.log(e.currentTarget.parentElement.id)
-                    if (e.currentTarget.parentElement.id == element.id) {
-                        dataIndex = index
-                    }
-                })
-                // console.log(dataIndex)
-                // console.log(e)
+        // Create a dataIndex variable to set to the data object index when the correct id is found
+        let dataIndex = -1;
+        // Loop through the data array and assign the index value to dataIndex variable when ids match
+        data.forEach(function (element, index) {
+            // console.log(element.id)
+            // console.log(index)
+            // console.log(e.currentTarget.parentElement.id)
+            if (e.currentTarget.parentElement.id == element.id) {
+                dataIndex = index
+            }
+        })
+        // console.log(dataIndex)
+        // console.log(e)
 
-                // Create local scope variables to use in the HTML string
-                let title = data[dataIndex].title
-                let id = data[dataIndex].id
-                let rating = data[dataIndex].rating
-                let genre = data[dataIndex].genre
-                // Create HTML string for edit movie button click
-                let html = `
+        // Create local scope variables to use in the HTML string
+        let title = data[dataIndex].title
+        let id = data[dataIndex].id
+        let rating = data[dataIndex].rating
+        let genre = data[dataIndex].genre
+        // Create HTML string for edit movie button click
+        let html = `
                 <form class="modal-content">
                 
                 <button class="closeModal" type="button">X</button>
@@ -102,47 +92,157 @@ function loadMovies() {
                 
                 <input type="submit" id="submitNewMovieEdit">
             </form>`
-                // Assign the edit movie HTML to the edit movie div
-                e.currentTarget.parentElement.children[4].innerHTML = html
-                console.log(e)
-                // Display the modal
-                e.currentTarget.parentElement.children[4].style.display = "block"
+        // Assign the edit movie HTML to the edit movie div
+        e.currentTarget.parentElement.children[4].innerHTML = html
+        console.log(e)
+        // Display the modal
+        e.currentTarget.parentElement.children[4].style.display = "block"
 
-                // Add event listener to close modal button class to display=none the parent element and remove "disabled property from the edit button attribute
-                $(".closeModal").click(function (e) {
-                    // Hide modal
-                    e.currentTarget.parentElement.parentElement.style.display = "none"
-                    // make edit button usable again
-                    $(".editMovie").prop("disabled", false)
-                })
+        // Add event listener to close modal button class to display=none the parent element and remove "disabled property from the edit button attribute
+        $(".closeModal").click(function (e) {
+            // Hide modal
+            e.currentTarget.parentElement.parentElement.style.display = "none"
+            // make edit button usable again
+            $(".editMovie").prop("disabled", false)
+        })
 
 
-                // Add a 'click' event listener to the #submitNewMovieEdit button
-                $("#submitNewMovieEdit").click(function (e) {
-                    e.preventDefault()
-                    $(this).prop("disabled", true)
-                    // console.log(e)
-                    // console.log(id)
-                    // Create local variables to use in the AJAX request
-                    let newMovieEdit = $("#editMovieName")[0].value
-                    let newRatingEdit = $("#editMovieRating")[0].value
-                    let newGenreEdit = $("#editMovieGenre")[0].value
-                    let putGlitchURL = `${glitchURL}/${id}`;
-                    // console.log(putGlitchURL)
-                    // Make movie AJAX PUT request
-                    $.ajax(putGlitchURL, {
-                        type: "PUT",
-                        data: {
-                            title: `${newMovieEdit}`,
-                            rating: `${newRatingEdit}`,
-                            genre: `${newGenreEdit}`
-                        }
-                        // Reload the movies
-                    }).then(() => {
-                        loadMovies()
-                    })
-                })
+        // Add a 'click' event listener to the #submitNewMovieEdit button
+        $("#submitNewMovieEdit").click(function (e) {
+            e.preventDefault()
+            $(this).prop("disabled", true)
+            // console.log(e)
+            // console.log(id)
+            // Create local variables to use in the AJAX request
+            let newMovieEdit = $("#editMovieName")[0].value
+            let newRatingEdit = $("#editMovieRating")[0].value
+            let newGenreEdit = $("#editMovieGenre")[0].value
+            let putGlitchURL = `${glitchURL}/${id}`;
+            // console.log(putGlitchURL)
+            // Make movie AJAX PUT request
+            $.ajax(putGlitchURL, {
+                type: "PUT",
+                data: {
+                    title: `${newMovieEdit}`,
+                    rating: `${newRatingEdit}`,
+                    genre: `${newGenreEdit}`
+                }
+                // Reload the movies
+            }).then(() => {
+                loadMovies()
             })
+        })
+    })
+
+}
+// Make movies AJAX GET request
+function loadMovies() {
+    return $.ajax(glitchURL, {
+        type: "GET"
+    }).then(function (data){
+        $("#sortMovies").change(function (){
+            if ($(this).children("option:selected").val() == 0){
+                return data
+            } else
+            if ($(this).children("option:selected").val() == 1){
+                data = data.sort((a, b) => {
+                    const nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    // names must be equal
+                    return 0;
+                });
+                console.log(data)
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 2){
+                data = data.sort((a, b) => {
+                    const nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                    if (nameA > nameB) {
+                        return -1;
+                    }
+                    if (nameA < nameB) {
+                        return 1;
+                    }
+                    // names must be equal
+                    return 0;
+                });
+                console.log(data)
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 3){
+                data = data.sort((a, b) => {
+                    const nameA = a.genre.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.genre.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                    // names must be equal
+                    return 0;
+                });
+                console.log(data)
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 4) {
+                data = data.sort((a, b) => {
+                    const nameA = a.genre.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.genre.toUpperCase(); // ignore upper and lowercase
+                    if (nameA > nameB) {
+                        return -1;
+                    }
+                    if (nameA < nameB) {
+                        return 1;
+                    }
+                    // names must be equal
+                    return 0;
+                });
+                console.log(data)
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 5){
+                data = data.sort((a, b) => b.rating - a.rating)
+                console.log(data)
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 6){
+                data = data.sort((a, b) => a.rating - b.rating)
+                console.log(data)
+                makeMovieHTML(data)
+            }
+        })
+        console.log(data)
+        return data
+    })
+        // Create an HTML string with the movie info
+        .then(function (data) {
+            console.log(data)
+            makeMovieHTML(data)
+            console.log(makeMovieHTML(data))
+//             let html = "<div>"
+//             data.forEach(function (movie) {
+//                 html += `<div id="${movie.id}"><h2>${movie.title}</h2>
+//         <p>Rating: ${movie.rating}</p>
+//         <p>Genre: ${movie.genre}</p>
+//         <button type="submit" class="editMovie">Edit</button>
+// <!--        // removed modal class from div below *d-none issue*-->
+//         <div class="editMovieFormDiv modal"></div>
+//         <button type="submit" class="deleteMovie">Delete</button>
+//         </div>
+//         `
+//             })
+//             html += "</div>"
+//             // Inject the HTML string into the #moviesDiv
+//             $("#moviesDiv").html(`${html}`)
+            // Add event listener to the .editMovie button class
 
             // Add a 'click' event listener to the .deleteMovie button
             $(".deleteMovie").click(function (e) {
@@ -173,6 +273,8 @@ function loadMovies() {
             })
         })
 }
+
+
 
 // Call the localMovies function to load the movie data when the page is opened
 
@@ -217,6 +319,7 @@ $("#submitNewMovie").on("click", function (e){
     // Reload the movies
     }).then(() => loadMovies())
 })
+
 
 
 

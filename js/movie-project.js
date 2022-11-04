@@ -42,14 +42,14 @@ function loadMovies() {
     })
         // Create an HTML string with the movie info
     .then(function (data){
-        console.log(data)
+        // console.log(data)
         let html = "<div>"
         data.forEach(function (movie) {
             html += `<div id="${movie.id}"><h2>${movie.title}</h2>
         <p>Rating: ${movie.rating}</p>
         <button type="submit" class="editMovie">Edit</button>
 <!--        // removed modal class from div below *d-none issue*-->
-        <div class="editMovieFormDiv"></div>
+        <div class="editMovieFormDiv modal"></div>
         <button type="submit" class="deleteMovie">Delete</button>
         </div>
         `
@@ -60,8 +60,8 @@ function loadMovies() {
         // Add event listener to the .editMovie button class
         $(".editMovie").click(function (e){
             e.preventDefault();
-            // $(".modal").css.display = "block"
-            // $(this).prop("disabled",true)
+            $(this).prop("disabled",true)
+
 
             // Create a dataIndex variable to set to the data object index when the correct id is found
             let dataIndex = -1;
@@ -82,9 +82,13 @@ function loadMovies() {
             let id = data[(dataIndex)].id
             let rating = data[(dataIndex)].rating
             // Create HTML string for edit movie button click
-            let html = `<form class="modal-content">
-<!--<button class="closeModal">Close</button>-->
+            let html = `
+                <form class="modal-content">
+                
+                <button class="closeModal" type="button">X</button>
+                
                 <h2>Edit this moo-vie</h2>
+                
                 <label for="editMovieName">Movie Title</label>
                 <input type="text" id="editMovieName" name="editMovieName" value="${title}">
                 
@@ -94,8 +98,19 @@ function loadMovies() {
                 <input type="submit" id="submitNewMovieEdit">
             </form>`
             // Assign the edit movie HTML to the edit movie div
-            // console.log(e.currentTarget.parentElement.children[3])
             e.currentTarget.parentElement.children[3].innerHTML = html
+            // Display the modal
+            e.currentTarget.parentElement.children[3].style.display = "block"
+
+            // Add event listener to close modal button class to display=none the parent element and remove "disabled property from the edit button attribute
+            $(".closeModal").click(function(e) {
+                // Hide modal
+                e.currentTarget.parentElement.parentElement.style.display = "none"
+                // make edit button usable again
+                $(".editMovie").prop("disabled",false)
+            })
+
+
             // Add a 'click' event listener to the #submitNewMovieEdit button
             $("#submitNewMovieEdit").click(function (e){
                 e.preventDefault()
@@ -118,9 +133,7 @@ function loadMovies() {
                 }).then(() => {loadMovies()})
             })
         })
-        // $(".closeModal").onclick = function() {
-        //     $(".modal").style.display = "none";
-        // }
+
         // Add a 'click' event listener to the .deleteMovie button
         $(".deleteMovie").click(function (e){
             e.preventDefault();
@@ -150,7 +163,7 @@ function loadMovies() {
 }
 // Call the localMovies function to load the movie data when the page is opened
 
-setTimeout(() => { loadMovies(); }, 5000);
+setTimeout(() => { loadMovies(); }, 1000);
 
 // Add a 'click' event listener to the #submitNewMovie button
 $("#submitNewMovie").on("click", function (e){

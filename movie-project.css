@@ -1,3 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+html {
+    width: 100vw;
+}
+h2, p {
+    margin: 0
+}
+#addMovie {
+    margin-top: 2em;
+}
+#addNewMovie{
+    position: absolute;
+    margin-left: 50%;
+    transform: translate(-50%, 50%);
+}
+body {
+    width: 100%;
+    margin: 0;
+    background-color: saddlebrown;
+    color: white;
+}
 .rotate {
     animation: rotation 5s infinite linear;
 }
@@ -9,12 +32,74 @@
         transform: rotate(359deg);
     }
 }
-img {
-
+#cowBanner{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#cowMovieFlexContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-top: 3em;
+}
+.editMovieH2 {
+    margin: 0 0 2em 0;
+}
+#headerH1 {
+    width: 100%;
+    color: saddlebrown;
+    font-size: 5em;
+    position: absolute;
+    top: 20px;
+    left: auto;
+    text-align: center;
+    text-shadow:  -1px 1px 1px #000,
+                   1px 1px 1px #000,
+                   1px -1px 1px #000,
+                  -1px -1px 1px #000;
+}
+#footerH1{
+    color: saddlebrown;
+    height: 0;
+    position: relative;
+    top: 120px;
+    left: auto;
+    text-align: center;
+    text-shadow:  -3px 3px 3px #000,
+                   3px 3px 3px #000,
+                   3px -3px 3px #000,
+                  -3px -3px 3px #000;
+}
+#headerDiv{
+    height: 20em;
+    width: 100%;
+    margin: 0 0 1em 0;
+    background-image: url("photos/cowBanner.jpg");
+}
+#sortMoviesForm{
+    position: absolute;
+    margin-left: 50%;
+    transform: translate(-50%);
+}
+#cowLoad {
     border-radius: 50%;
     height: 20em;
     width: 20em;
     object-fit: cover;
+}
+label {
+    color: white;
+}
+#loader-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*position: absolute;*/
+    /*margin-left: 50%;*/
+    /*transform: translate(-50%);*/
 }
 .modal {
     display: none; /* Hidden by default */
@@ -29,14 +114,61 @@ img {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
+#cowEditImg {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
 .modal-content {
-    background-color: #fefefe;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background-image: url("photos/cowEdit.jpg");
+    background-size: cover;
     margin: auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
+    width: 40%;
+}
+.modal-content h2, .modal-content label {
+    text-shadow:  -3px 3px 3px #000,
+                   3px 3px 3px #000,
+                   3px -3px 3px #000,
+                  -3px -3px 3px #000;
+}
+footer{
+    margin-top: 3em;
+}
+#cowFooterImg{
+    height: 10em;
+    width: 100%;
+    object-fit: cover;
+    object-position: bottom;
+}
+.movieCard {
+    background-image: url("photos/cowCard.jpg");
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid white;
+    margin: 5px;
+    width: 20%;
+    height: 15em;
+    text-shadow:  -3px 3px 3px #000,
+                   3px 3px 3px #000,
+                   3px -3px 3px #000,
+                  -3px -3px 3px #000;
+}
+#moviesDiv{
+    margin-top: 3em;
 }
 .closeModal {
+    align-self: flex-end;
     color: #aaaaaa;
     float: right;
     font-size: 28px;

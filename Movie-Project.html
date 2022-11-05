@@ -6,8 +6,11 @@
 	<link rel="stylesheet" href="movie-project.css">
 </head>
 <body>
-<h1>Welcome to Moo-vies</h1>
-<form>
+	<div id="headerDiv">
+		<img id="cowBanner" src="photos/cowBanner.jpg">
+		<div id="headerH1">Welcome to Moo-vies</div>
+	</div>
+<form id="sortMoviesForm">
 	<label for="sortMovies">Sort Moo-vies:</label>
 	<select id="sortMovies" name="sortMovies">
 		<option class="sortOption" value="0">Select a sort option</option>
@@ -18,32 +21,38 @@
 		<option class="sortOption" value="5">Rating High-Low</option>
 		<option class="sortOption" value="6">Rating Low-High</option>
 	</select>
-	<label for="searchMovies">Search Moo-vies:</label>
-	<input type="search" id="searchMovies" name="searchMovies">
 </form>
 <div id="moviesDiv">
-	<div class="loader-wrapper">
+	<div id="loader-wrapper">
 		<h1>Just a Moo-ment while your page loads...</h1>
-		<span class="loader"><span class="loader-inner"><img src="photos/pexels-jan-koetsier-2647053.jpg" class="rotate"></span></span>
+		<span class="loader"><span class="loader-inner"><img id="cowLoad" src="photos/cowLoad.jpg" class="rotate"></span></span>
 	</div>
 </div>
-	<button type="button" id="addNewMovie">Add a new moo-vie</button>
+
+<button type="button" id="addNewMovie">Add a new moo-vie</button>
+
 <div id="addMovie" class="modal">
 	<form class="modal-content">
 		<button class="closeModal" type="button">X</button>
-		<h1>Add A New Moo-vie</h1>
+		<h2>Add A New Moo-vie</h2>
+		<br>
 		<label for="movieName">Movie Title</label>
 		<input type="text" id="movieName" name="movieName">
-		
+		<br>
 		<label for="movieRating">Movie Rating</label>
 		<input type="text" id="movieRating" name="movieRating">
-		
+		<br>
 		<label for="movieGenre">Movie Genre</label>
 		<input type="text" id="movieGenre" name="movieGenre">
-		
+		<br>
 		<input type="submit" id="submitNewMovie">
 	</form>
 </div>
+	<footer>
+		<h1 id="footerH1">Cow-m on back now, ya steer...</h1>
+		<img id="cowFooterImg" src="photos/cowFooter.jpg">
+
+	</footer>
 
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <script src="js/movie-project.js"></script>

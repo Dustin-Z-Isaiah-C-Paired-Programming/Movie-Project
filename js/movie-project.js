@@ -264,7 +264,7 @@
 
     // Call the localMovies function to load the movie data when the page is opened
     // Let the rotating loading cow complete a full rotation
-    setTimeout(() => { loadMovies(); }, 1000);
+    setTimeout(() => { loadMovies(); }, 5000);
 
 
     // Add click event listeners to the button with the addNewMovie ID

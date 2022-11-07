@@ -27,12 +27,107 @@
      * ✅ 3. Use modals for the creating and editing movie forms.
      * ✅ 4. Add a genre property to every movie.
      * ✅ 5. Allow users to sort the movies by rating, title, or genre (if you have it).
-     * 6. Allow users to search through the movies by rating, title, or genre (if you have it).
+     * ✅ 6. Allow users to search through the movies by rating, title, or genre (if you have it).
      * 7. Use a free movie API like OMDB to include extra info or render movie posters.
      */
 
     // alert('moo')
-        let glitchURL = 'https://defiant-melted-burrito.glitch.me/movies';
+    let glitchURL = 'https://defiant-melted-burrito.glitch.me/movies';
+
+    //Create a var to hold movies array
+    let moviesArray = []
+
+    //Add keyup event listener to searchMovie div
+    $("#searchMovies").on("keyup", function (e){
+        let searchResults = []
+        let searchValue = e.currentTarget.value.toLowerCase()
+        moviesArray.forEach(function (movie){
+            if ((movie.title.toLowerCase().indexOf(searchValue) !== -1) || (movie.rating.indexOf(searchValue) !== -1) ||(movie.genre.toLowerCase().indexOf(searchValue) !== -1)){
+                searchResults.push(movie)
+            }
+            makeMovieHTML(searchResults);
+        })
+    })
+
+    //Create sortMovies function
+    function sortMovies(data){
+        // assign get data to moviesArray
+        moviesArray = data
+        // Add change event listener to sort the data array of objects
+        $("#sortMovies").change(function (e){
+            e.preventDefault()
+            if ($(this).children("option:selected").val() == 0){
+                return data
+            } else
+            if ($(this).children("option:selected").val() == 1){
+                data = data.sort((a, b) => {
+                    const nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                });
+
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 2){
+                data = data.sort((a, b) => {
+                    const nameA = a.title.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.title.toUpperCase(); // ignore upper and lowercase
+                    if (nameA > nameB) {
+                        return -1;
+                    }
+                    if (nameA < nameB) {
+                        return 1;
+                    }
+                });
+
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 3){
+                data = data.sort((a, b) => {
+                    const nameA = a.genre.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.genre.toUpperCase(); // ignore upper and lowercase
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+                });
+
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 4) {
+                data = data.sort((a, b) => {
+                    const nameA = a.genre.toUpperCase(); // ignore upper and lowercase
+                    const nameB = b.genre.toUpperCase(); // ignore upper and lowercase
+                    if (nameA > nameB) {
+                        return -1;
+                    }
+                    if (nameA < nameB) {
+                        return 1;
+                    }
+                });
+
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 5){
+                data = data.sort((a, b) => b.rating - a.rating)
+
+                makeMovieHTML(data)
+            } else
+            if ($(this).children("option:selected").val() == 6){
+                data = data.sort((a, b) => a.rating - b.rating)
+
+                makeMovieHTML(data)
+            }
+        })
+        return data
+    }
 
     // 🐮🐮🐮🐮🐮🐮🐮START makeMovieHTML function🐮🐮🐮🐮🐮🐮🐮
     function makeMovieHTML(data){
@@ -82,6 +177,7 @@
                     <button class="closeModal" type="button">X</button>
                     
                     <h2 class="editMovieH2">Edit this moo-vie</h2>
+                    <br>
                     
                     <label for="editMovieName">Movie Title</label>
                     <input type="text" id="editMovieName" name="editMovieName" value="${title}">
@@ -113,7 +209,6 @@
                 $(".editMovie").prop("disabled", false)
             })
 
-
             // Add a 'click' event listener to the #submitNewMovieEdit button
             $("#submitNewMovieEdit").click(function (e) {
                 e.preventDefault()
@@ -134,7 +229,7 @@
                         genre: `${newGenreEdit}`
                     }
 
-                // Reload the movies
+                    // Reload the movies
                 }).then(() => {
                     loadMovies()
                 })
@@ -143,87 +238,18 @@
     }
     // 🐮🐮🐮🐮🐮🐮🐮END makeMovieHTML function🐮🐮🐮🐮🐮🐮🐮
 
-
     // 🐄🐄🐄🐄🐄🐄🐄START makeMovieHTML function🐄🐄🐄🐄🐄🐄🐄
     function loadMovies() {
         // Make movies AJAX GET request
         return $.ajax(glitchURL, {
             type: "GET"
-        }).then(function (data){
-            // Add change event listener to sort the data array of objects
-            $("#sortMovies").change(function (e){
-                e.preventDefault()
-                if ($(this).children("option:selected").val() == 0){
-                    return data
-                } else
-                if ($(this).children("option:selected").val() == 1){
-                    data = data.sort((a, b) => {
-                        const nameA = a.title.toUpperCase(); // ignore upper and lowercase
-                        const nameB = b.title.toUpperCase(); // ignore upper and lowercase
-                        if (nameA < nameB) {
-                            return -1;
-                        }
-                        if (nameA > nameB) {
-                            return 1;
-                        }
-                    });
-
-                    makeMovieHTML(data)
-                } else
-                if ($(this).children("option:selected").val() == 2){
-                    data = data.sort((a, b) => {
-                        const nameA = a.title.toUpperCase(); // ignore upper and lowercase
-                        const nameB = b.title.toUpperCase(); // ignore upper and lowercase
-                        if (nameA > nameB) {
-                            return -1;
-                        }
-                        if (nameA < nameB) {
-                            return 1;
-                        }
-                    });
-
-                    makeMovieHTML(data)
-                } else
-                if ($(this).children("option:selected").val() == 3){
-                    data = data.sort((a, b) => {
-                        const nameA = a.genre.toUpperCase(); // ignore upper and lowercase
-                        const nameB = b.genre.toUpperCase(); // ignore upper and lowercase
-                        if (nameA < nameB) {
-                            return -1;
-                        }
-                        if (nameA > nameB) {
-                            return 1;
-                        }
-                    });
-
-                    makeMovieHTML(data)
-                } else
-                if ($(this).children("option:selected").val() == 4) {
-                    data = data.sort((a, b) => {
-                        const nameA = a.genre.toUpperCase(); // ignore upper and lowercase
-                        const nameB = b.genre.toUpperCase(); // ignore upper and lowercase
-                        if (nameA > nameB) {
-                            return -1;
-                        }
-                        if (nameA < nameB) {
-                            return 1;
-                        }
-                    });
-
-                    makeMovieHTML(data)
-                } else
-                if ($(this).children("option:selected").val() == 5){
-                    data = data.sort((a, b) => b.rating - a.rating)
-
-                    makeMovieHTML(data)
-                } else
-                if ($(this).children("option:selected").val() == 6){
-                    data = data.sort((a, b) => a.rating - b.rating)
-
-                    makeMovieHTML(data)
-                }
-            })
-            return data
+        }).then
+        (function (data){
+            // assign get data to moviesArray
+            moviesArray = data;
+            // call sortMovies function
+            sortMovies(moviesArray)
+            return moviesArray;
         })
             // Create an HTML string with the movie info
             .then(function (data) {
@@ -311,6 +337,8 @@
         // Reload the movies
         }).then(() => loadMovies())
     })
+
+
 })()
 
 

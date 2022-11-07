@@ -8,9 +8,9 @@
 <body>
 	<div id="headerDiv">
 		<img id="cowBanner" src="photos/cowBanner.jpg">
-		<div id="headerH1">Welcome to Moo-vies</div>
+		<div id="headerH1" class="textShadow1pxBlack">Welcome to Moo-vies</div>
 	</div>
-<form id="sortMoviesForm">
+<form id="sortMoviesForm" class="textShadow1pxBlack">
 	<label for="sortMovies">Sort Moo-vies:</label>
 	<select id="sortMovies" name="sortMovies">
 		<option class="sortOption" value="0">Select a sort option</option>
@@ -22,6 +22,11 @@
 		<option class="sortOption" value="6">Rating Low-High</option>
 	</select>
 </form>
+	<br>
+<form id="searchMoviesForm" class="textShadow1pxBlack">
+	<label for="searchMovies">Search Moo-vies</label>
+	<input type="search" id="searchMovies" name="searchMovies">
+</form>
 <div id="moviesDiv">
 	<div id="loader-wrapper">
 		<h1>Just a Moo-ment while your page loads...</h1>
@@ -32,7 +37,7 @@
 <button type="button" id="addNewMovie">Add a new moo-vie</button>
 
 <div id="addMovie" class="modal">
-	<form class="modal-content">
+	<form class="modal-content" class="textShadow3pxBlack">
 		<button class="closeModal" type="button">X</button>
 		<h2>Add A New Moo-vie</h2>
 		<br>
@@ -49,7 +54,7 @@
 	</form>
 </div>
 	<footer>
-		<h1 id="footerH1">Cow-m on back now, ya steer...</h1>
+		<h1 id="footerH1" class="textShadow3pxBlack">Cow-m on back now, ya steer...</h1>
 		<img id="cowFooterImg" src="photos/cowFooter.jpg">
 
 	</footer>

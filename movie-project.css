@@ -1,12 +1,6 @@
 * {
     box-sizing: border-box;
 }
-html {
-    width: 100vw;
-}
-h2, p {
-    margin: 0
-}
 #addMovie {
     margin-top: 2em;
 }
@@ -21,21 +15,40 @@ body {
     background-color: saddlebrown;
     color: white;
 }
-.rotate {
-    animation: rotation 5s infinite linear;
+.closeModal {
+    align-self: flex-end;
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
-@keyframes rotation {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(359deg);
-    }
+.closeModal:hover,
+.closeModal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 #cowBanner{
     margin: 0;
     width: 100%;
     height: 100%;
+    object-fit: cover;
+}
+#cowEditImg {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+#cowFooterImg{
+    height: 10em;
+    width: 100%;
+    object-fit: cover;
+    object-position: bottom;
+}
+#cowLoad {
+    border-radius: 50%;
+    height: 20em;
+    width: 20em;
     object-fit: cover;
 }
 #cowMovieFlexContainer {
@@ -48,18 +61,8 @@ body {
 .editMovieH2 {
     margin: 0 0 2em 0;
 }
-#headerH1 {
-    width: 100%;
-    color: saddlebrown;
-    font-size: 5em;
-    position: absolute;
-    top: 20px;
-    left: auto;
-    text-align: center;
-    text-shadow:  -1px 1px 1px #000,
-                   1px 1px 1px #000,
-                   1px -1px 1px #000,
-                  -1px -1px 1px #000;
+footer{
+    margin-top: 3em;
 }
 #footerH1{
     color: saddlebrown;
@@ -68,10 +71,6 @@ body {
     top: 120px;
     left: auto;
     text-align: center;
-    text-shadow:  -3px 3px 3px #000,
-                   3px 3px 3px #000,
-                   3px -3px 3px #000,
-                  -3px -3px 3px #000;
 }
 #headerDiv{
     height: 20em;
@@ -79,16 +78,21 @@ body {
     margin: 0 0 1em 0;
     background-image: url("photos/cowBanner.jpg");
 }
-#sortMoviesForm{
+#headerH1 {
+    width: 100%;
+    color: saddlebrown;
+    font-size: 5em;
     position: absolute;
-    margin-left: 50%;
-    transform: translate(-50%);
+    top: 20px;
+    left: auto;
+    text-align: center;
+
 }
-#cowLoad {
-    border-radius: 50%;
-    height: 20em;
-    width: 20em;
-    object-fit: cover;
+html {
+    width: 100vw;
+}
+h2, p {
+    margin: 0
 }
 label {
     color: white;
@@ -97,9 +101,6 @@ label {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*position: absolute;*/
-    /*margin-left: 50%;*/
-    /*transform: translate(-50%);*/
 }
 .modal {
     display: none; /* Hidden by default */
@@ -114,11 +115,6 @@ label {
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-#cowEditImg {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-}
 .modal-content {
     display: flex;
     flex-direction: column;
@@ -130,21 +126,6 @@ label {
     padding: 20px;
     border: 1px solid #888;
     width: 40%;
-}
-.modal-content h2, .modal-content label {
-    text-shadow:  -3px 3px 3px #000,
-                   3px 3px 3px #000,
-                   3px -3px 3px #000,
-                  -3px -3px 3px #000;
-}
-footer{
-    margin-top: 3em;
-}
-#cowFooterImg{
-    height: 10em;
-    width: 100%;
-    object-fit: cover;
-    object-position: bottom;
 }
 .movieCard {
     background-image: url("photos/cowCard.jpg");
@@ -160,23 +141,52 @@ footer{
     width: 20%;
     height: 15em;
     text-shadow:  -3px 3px 3px #000,
-                   3px 3px 3px #000,
-                   3px -3px 3px #000,
-                  -3px -3px 3px #000;
+    3px 3px 3px #000,
+    3px -3px 3px #000,
+    -3px -3px 3px #000;
 }
 #moviesDiv{
     margin-top: 3em;
 }
-.closeModal {
-    align-self: flex-end;
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+.rotate {
+    animation: rotation 5s infinite linear;
 }
-.closeModal:hover,
-.closeModal:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
 }
+#searchMoviesForm{
+    position: absolute;
+    margin-left: 50%;
+    transform: translate(-50%);
+    margin-top: 1em;
+}
+#sortMoviesForm{
+    position: absolute;
+    margin-left: 50%;
+    transform: translate(-50%);
+}
+.textShadow1pxBlack{
+    text-shadow:  -1px 1px 1px #000,
+                   1px 1px 1px #000,
+                   1px -1px 1px #000,
+                  -1px -1px 1px #000;
+}
+.textShadow3pxBlack{
+    text-shadow:  -3px 3px 3px #000,
+                   3px 3px 3px #000,
+                   3px -3px 3px #000,
+                  -3px -3px 3px #000;
+}
+
+
+
+
+
+
+
+
